@@ -11,7 +11,7 @@ stages:
   - name: build
   - name: test
   - name: deploy
-    if: tag IS present  # Only run deploy stage if a tag is present
+    if: tag IS present  # Only run deploy stage if a tag is present r
 
 jobs:
   include:
