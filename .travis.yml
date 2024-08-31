@@ -10,6 +10,7 @@ cache:
 stages:
   - name: build
   - name: test
+  - name: Deployement
   - name: deploy
     if: tag IS present  # Only run deploy stage if a tag is present 
 
@@ -19,7 +20,7 @@ jobs:
       before_script:
         - chmod +x ./gradlew  # Ensure gradlew is executable
       script:
-        - ./gradlew build
+        - ./gradlew clean compileJava
 
     - stage: test
       before_script:
@@ -31,6 +32,10 @@ jobs:
       after_success:
         - echo "Tests passed successfully."
     
+    - stage: Deployement
+      script:
+        - java -jar ./build/libs/hello-world-java-V1.jar
+
     - stage: deploy
       before_script:
         - chmod +x ./gradlew  # Ensure gradlew is executable
@@ -41,7 +46,7 @@ jobs:
         api_key: $GITHUB_TOKEN
         file:
           - build/libs/*  # JAR file
-          - build/reports/tests/*  # Test Report (HTML)..
+          - build/reports/tests/*  # Test Report (HTML)
         skip_cleanup: true
         on:
           tags: true
