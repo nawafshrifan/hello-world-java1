@@ -35,7 +35,7 @@ jobs:
         api_key: $GITHUB_TOKEN
         file:
           - build/libs/*  # JAR file
-          - build/reports/tests/*           # Test Report (HTML) ..
+          - build/reports/tests/*           # Test Report (HTML) ...
         skip_cleanup: true
         on:
           tags: true
