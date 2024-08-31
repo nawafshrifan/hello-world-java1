@@ -17,10 +17,12 @@ jobs:
   include:
     - stage: build
       script:
+        - chmod +x ./gradlew  # Add permission to execute gradlew
         - ./gradlew clean compileJava
 
     - stage: test
       script:
+        - chmod +x ./gradlew  # Add permission to execute gradlew
         - ./gradlew test
       after_failure:
         - echo "Tests failed. Check the test results for details."
@@ -29,6 +31,7 @@ jobs:
     
     - stage: deploy
       script:
+        - chmod +x ./gradlew  # Add permission to execute gradlew
         - ./gradlew build  # Build the project
       deploy:
         provider: releases
