@@ -16,13 +16,15 @@ stages:
 jobs:
   include:
     - stage: build
+      before_script:
+        - chmod +x ./gradlew  # Ensure gradlew is executable
       script:
-        - chmod +x ./gradlew  # Add permission to execute gradlew
         - ./gradlew clean compileJava
 
     - stage: test
+      before_script:
+        - chmod +x ./gradlew  # Ensure gradlew is executable
       script:
-        - chmod +x ./gradlew  # Add permission to execute gradlew
         - ./gradlew test
       after_failure:
         - echo "Tests failed. Check the test results for details."
@@ -30,15 +32,16 @@ jobs:
         - echo "Tests passed successfully."
     
     - stage: deploy
+      before_script:
+        - chmod +x ./gradlew  # Ensure gradlew is executable
       script:
-        - chmod +x ./gradlew  # Add permission to execute gradlew
         - ./gradlew build  # Build the project
       deploy:
         provider: releases
         api_key: $GITHUB_TOKEN
         file:
           - build/libs/*  # JAR file
-          - build/reports/tests/*           # Test Report (HTML) ...
+          - build/reports/tests/*  # Test Report (HTML)
         skip_cleanup: true
         on:
           tags: true
