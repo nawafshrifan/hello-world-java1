@@ -19,7 +19,7 @@ jobs:
       before_script:
         - chmod +x ./gradlew  # Ensure gradlew is executable
       script:
-        - ./gradlew clean compileJava
+        - ./gradlew build
 
     - stage: test
       before_script:
