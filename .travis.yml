@@ -8,21 +8,21 @@ cache:
     - $HOME/.gradle/wrapper/
 
 stages:
-  - name: build
-  - name: test
+  - name: Building
+  - name: Testing
   - name: Deployement
-  - name: deploy
-    if: tag IS present  # Only run deploy stage if a tag is present 
 
 jobs:
   include:
-    - stage: build
+    - stage: Building
       before_script:
         - chmod +x ./gradlew  # Ensure gradlew is executable
       script:
         - ./gradlew clean compileJava
+        - echo "Download the JAR file from the following link:"
+        - echo "https://travis-ci.com/${TRAVIS_REPO_SLUG}/jobs/${TRAVIS_JOB_ID}/artifacts/build/libs/*.jar"
 
-    - stage: test
+    - stage: Testing
       before_script:
         - chmod +x ./gradlew  # Ensure gradlew is executable
       script:
@@ -35,21 +35,6 @@ jobs:
     - stage: Deployement
       script:
         - java -jar ./build/libs/hello-world-java-V1.jar
-
-    - stage: deploy
-      before_script:
-        - chmod +x ./gradlew  # Ensure gradlew is executable
-      script:
-        - ./gradlew build  # Build the project
-      deploy:
-        provider: releases
-        api_key: $GITHUB_TOKEN
-        file:
-          - build/libs/*  # JAR file
-          - build/reports/tests/*  # Test Report (HTML)
-        skip_cleanup: true
-        on:
-          tags: true
 
 notifications:
   email:
